@@ -45,7 +45,7 @@ internal sealed class EditorWindow : Window
     {
         Imaging.CheckSize(bitmap.Width,bitmap.Height);document=new(bitmap);screenArea=area;this.autoCopy=autoCopy;
         Ui.Setup(this,AppBrand.Title("编辑"),Math.Min(880,SystemParameters.WorkArea.Width-32),Math.Min(620,SystemParameters.WorkArea.Height-32));MinWidth=620;MinHeight=400;
-        UseLayoutRounding=true;SnapsToDevicePixels=true;SmallWindow.Configure(this,28);
+        UseLayoutRounding=true;SnapsToDevicePixels=true;SmallWindow.Configure(this,28,allowMaximize:true);
         var root=new DockPanel { UseLayoutRounding=true,SnapsToDevicePixels=true };
         var titlebar=SmallWindow.Titlebar(this);titlebar.Height=28;
         foreach(var title in titlebar.Children.OfType<TextBlock>())title.Visibility=Visibility.Collapsed;

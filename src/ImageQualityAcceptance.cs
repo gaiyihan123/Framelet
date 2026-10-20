@@ -10,6 +10,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Shell;
 using System.Windows.Threading;
 using D=System.Drawing;
 
@@ -78,21 +79,60 @@ internal static class ImageQualityAcceptance
             lines.Add($"PASS: {window.Title} has independent Framelet.Desktop window taskbar identity");
             if(AppIdentity.WindowIconResource(window)!=AppIdentity.ShellIconResource||AppIdentity.WindowRelaunchName(window)!="Framelet")throw new Exception("Taskbar relaunch icon or display name still resolves through the former EXE cache");
             lines.Add($"PASS: {window.Title} explicitly exposes Framelet's new F icon resource to the Windows taskbar");
-            if(window.ResizeMode!=ResizeMode.CanMinimize)throw new Exception("Window still resizable");
-            SendMessage(handle,0x0112,new IntPtr(0xf030),IntPtr.Zero);
-            if(window.WindowState!=WindowState.Normal)throw new Exception("System maximize was not blocked");
-            SendMessage(handle,0x00a3,new IntPtr(2),IntPtr.Zero);
-            if(window.WindowState!=WindowState.Normal)throw new Exception("Caption double click maximized window");
-            window.WindowState=WindowState.Maximized;
-            if(window.WindowState!=WindowState.Normal)throw new Exception("Programmatic maximize was not restored");
+            if(window==home) {
+                if(window.ResizeMode!=ResizeMode.CanMinimize)throw new Exception("Home window still resizable");
+                SendMessage(handle,0x0112,new IntPtr(0xf030),IntPtr.Zero);
+                if(window.WindowState!=WindowState.Normal)throw new Exception("Home system maximize was not blocked");
+                SendMessage(handle,0x00a3,new IntPtr(2),IntPtr.Zero);
+                if(window.WindowState!=WindowState.Normal)throw new Exception("Home caption double click maximized window");
+                window.WindowState=WindowState.Maximized;
+                if(window.WindowState!=WindowState.Normal)throw new Exception("Home programmatic maximize was not restored");
+                lines.Add("PASS: home remains a small window after system maximize, caption double click and state change");
+            }else CheckEditorCaption(editor,folder,lines);
             window.Hide();
-            lines.Add($"PASS: {window.Title} remains a small window after system maximize, caption double click and state change");
         }
         var bar=((DockPanel)editor.Content).Children.OfType<Grid>().Single(x=>x.Name=="EditorTitlebar");
         var controls=bar.Children.OfType<StackPanel>().Single().Children.OfType<Button>().ToArray();
-        if(!controls.Select(AutomationProperties.GetName).SequenceEqual(new[]{"最小化","关闭"}))throw new Exception("Editor caption actions mismatch");
-        lines.Add("PASS: editor titlebar exposes only minimize and close");
+        if(!controls.Select(AutomationProperties.GetName).SequenceEqual(new[]{"最小化","最大化","关闭"}))throw new Exception("Editor caption actions mismatch");
+        lines.Add("PASS: editor titlebar exposes minimize, maximize and close");
         return lines;
+    }
+    private static void CheckEditorCaption(EditorWindow editor,string folder,List<string> lines)
+    {
+        if(editor.ResizeMode!=ResizeMode.CanResize)throw new Exception("Editor cannot resize or maximize");
+        var bar=((DockPanel)editor.Content).Children.OfType<Grid>().Single(x=>x.Name=="EditorTitlebar");
+        var buttons=bar.Children.OfType<StackPanel>().Single().Children.OfType<Button>().ToArray();
+        var maximize=buttons.Single(button=>AutomationProperties.GetName(button)=="最大化");
+        if(buttons.Length!=3||buttons.Any(button=>!WindowChrome.GetIsHitTestVisibleInChrome(button)))throw new Exception("Editor caption buttons are not clickable in window chrome");
+        var normal=new Rect(editor.Left,editor.Top,editor.Width,editor.Height);
+        void Settle() {
+            var frame=new DispatcherFrame();var timer=new DispatcherTimer { Interval=TimeSpan.FromMilliseconds(150) };
+            timer.Tick+=(_,_)=> {timer.Stop();frame.Continue=false;};timer.Start();Dispatcher.PushFrame(frame);editor.UpdateLayout();
+        }
+        void Snapshot(string name) {
+            var root=(FrameworkElement)editor.Content;var dpi=VisualTreeHelper.GetDpi(root);
+            var rendered=new RenderTargetBitmap((int)Math.Ceiling(root.ActualWidth*dpi.DpiScaleX),(int)Math.Ceiling(root.ActualHeight*dpi.DpiScaleY),96*dpi.DpiScaleX,96*dpi.DpiScaleY,PixelFormats.Pbgra32);rendered.Render(root);
+            var encoder=new PngBitmapEncoder();encoder.Frames.Add(BitmapFrame.Create(rendered));using var file=File.Create(Path.Combine(folder,name+".png"));encoder.Save(file);
+        }
+        Settle();Snapshot("editor-window-normal");
+        maximize.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));Settle();
+        if(editor.WindowState!=WindowState.Maximized||AutomationProperties.GetName(maximize)!="还原"||maximize.ToolTip?.ToString()!="还原")throw new Exception("Editor maximize button failed to maximize or expose restore");
+        Snapshot("editor-window-maximized");
+        maximize.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));Settle();
+        if(editor.WindowState!=WindowState.Normal||AutomationProperties.GetName(maximize)!="最大化")throw new Exception("Editor restore button failed");
+        var restored=new Rect(editor.Left,editor.Top,editor.Width,editor.Height);
+        if(Math.Abs(restored.X-normal.X)>1||Math.Abs(restored.Y-normal.Y)>1||Math.Abs(restored.Width-normal.Width)>1||Math.Abs(restored.Height-normal.Height)>1)throw new Exception("Editor restore lost its normal window bounds");
+        Snapshot("editor-window-restored");
+        lines.Add("PASS: editor maximize/restore caption button changes state and accessible label, then restores original window bounds");
+        var handle=new WindowInteropHelper(editor).Handle;
+        SendMessage(handle,0x0112,new IntPtr(0xf030),IntPtr.Zero);Settle();
+        if(editor.WindowState!=WindowState.Maximized)throw new Exception("Editor system maximize is blocked");
+        SendMessage(handle,0x00a3,new IntPtr(2),IntPtr.Zero);Settle();
+        if(editor.WindowState!=WindowState.Normal)throw new Exception("Editor caption double click failed to restore");
+        SendMessage(handle,0x00a3,new IntPtr(2),IntPtr.Zero);Settle();
+        if(editor.WindowState!=WindowState.Maximized)throw new Exception("Editor caption double click failed to maximize");
+        maximize.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));Settle();
+        lines.Add("PASS: editor supports native system maximize and titlebar double-click maximize/restore");
     }
     private static void CheckEditorPixelPaths(string folder,List<string> lines)
     {

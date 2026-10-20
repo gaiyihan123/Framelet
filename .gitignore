@@ -10,6 +10,7 @@ evidence/
 /VERIFICATION.md
 /OFFLINE-VERIFICATION.md
 /UI-REFRESH-VERIFICATION.md
+/docs/HANDOFF.md
 
 # Offline resources are checksummed GitHub Release assets.
 /offline/native/**

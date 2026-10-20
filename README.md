@@ -8,12 +8,12 @@ Windows 11 x64 中文截图工具，支持截图标注、置顶贴图、滚动�
 
 默认安装到当前用户的程序目录。升级保留快捷键和开机启动设置；已有程序运行时，从系统托盘退出 Framelet，再重新打开以加载新版。
 
-当前发布为 **1.3.0 / 2026-10-20**。安装包约 1.25 GB，主要是随包提供的离线翻译模型。
+当前发布为 **1.3.0 / 2026-10-20 编辑窗口最大化修复**（标签 `v1.3.0-20261020-editor-maximize`）。截图后的编辑窗口可最大化、还原，主界面继续保持小窗口。安装包约 1.25 GB，主要是随包提供的离线翻译模型。
 
 ## 使用
 
 - **截图**：点击选择鼠标下的窗口，拖动框选区域，Enter 全屏，Esc 或右键取消。尚未点击时显示像素放大镜，C 复制当前颜色，Shift 切换 RGB/HEX。
-- **编辑**：支持箭头、框线、文字、马赛克、撤销和重做。调整选区或标注时自动更新剪贴板；工具条和选框不会进入导出图片。自动复制后可在支持图片的聊天或文档中按 Ctrl+V 粘贴。
+- **编辑**：支持箭头、框线、文字、马赛克、撤销和重做。右上角可最大化、还原编辑窗口，也可双击标题栏切换；主界面保持小窗口。调整选区或标注时自动更新剪贴板；工具条和选框不会进入导出图片。自动复制后可在支持图片的聊天或文档中按 Ctrl+V 粘贴。
 - **长截屏**：先框选正文宽高，保持左键按住，继续向下拖动或使用滚轮。首次滚轮会锁定当时的原选框，不自动把下面的输入框圈进来；松手完成并停止继续滚动。衔接不可靠时暂停下滚，可上滚一点找回上一段，或松手保留已确认内容。
 - **图片翻译**：截图后在原画面旁显示译文，全文连续排版，可修改或复制文字；长图也可生成原文与译文对照图。
 - **贴图与快捷键**：剪贴板图片可置顶，截图、窗口截图、全屏、长截屏、截图翻译和贴图快捷键可在设置中配置。
@@ -36,7 +36,7 @@ Windows 11 x64 中文截图工具，支持截图标注、置顶贴图、滚动�
 Git 仓库保存源码、依赖锁定文件、模型及运行库完整性清单。模型和运行库较大，另放在同版本 Release 的 `Framelet-1.3.0-runtime-assets-win-x64.zip` 中。
 
 1. 克隆仓库。
-2. 从同版本 [Release](https://github.com/gaiyihan123/Framelet/releases/tag/v1.3.0-20261020) 下载运行资源 ZIP 和 `SHA256SUMS.txt`，用 `Get-FileHash -Algorithm SHA256` 核对。
+2. 从同版本 [运行资源 Release](https://github.com/gaiyihan123/Framelet/releases/tag/v1.3.0-20261020) 下载运行资源 ZIP 和 `SHA256SUMS.txt`，用 `Get-FileHash -Algorithm SHA256` 核对。此次编辑窗口修复没有更改模型或运行库，继续复用该资源 ZIP。
 3. 在仓库根目录解压运行资源，恢复 `offline/native`、`offline/embedded`、`offline/model`、`offline/qwen/model` 和 `runtimes/win-x64` 的原目录结构。
 4. 构建：
 
@@ -51,6 +51,7 @@ Expand-Archive .\Framelet-1.3.0-runtime-assets-win-x64.zip -DestinationPath . -F
 
 ```powershell
 .\QingCapture.exe --ui-self-test --scroll-stability-only --report-dir .\reports\scroll
+.\QingCapture.exe --ui-self-test --layout-only --report-dir .\reports\layout
 .\QingCapture.exe --ui-self-test --report-dir .\reports\ui
 .\QingCapture.exe --self-test --browser-translation-test --report-dir .\reports\full
 ```

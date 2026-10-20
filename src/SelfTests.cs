@@ -29,6 +29,10 @@ internal static class SelfTests
         string folder=args.SkipWhile(x=>x!="--report-dir").Skip(1).FirstOrDefault()??Path.Combine(Environment.CurrentDirectory,"ui-test-results"); Directory.CreateDirectory(folder);
         void Mark(string stage)=>File.AppendAllText(Path.Combine(folder,"progress.txt"),stage+Environment.NewLine);
         try {
+            if(args.Contains("--layout-only")) {
+                lines.Clear();lines.AddRange(UiAcceptance.Run(Mark));lines.AddRange(LayoutAcceptance.Run(folder,Mark));
+                File.WriteAllLines(Path.Combine(folder,"tests.txt"),lines);return 0;
+            }
             if(args.Contains("--recorded-chat-scroll")) {
                 string path=args.SkipWhile(x=>x!="--image-path").Skip(1).FirstOrDefault()??throw new ArgumentException("--image-path is required");
                 lines.Clear();lines.AddRange(RecordedChatScrollAcceptance.Run(path,folder));
