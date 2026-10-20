@@ -1,0 +1,34 @@
+Microsoft Visual C++ Runtime, x64, version 14.51.36247.0
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+This application includes unmodified Microsoft release runtime files:
+  msvcp140.dll
+  vcruntime140.dll
+  vcruntime140_1.dll
+
+Source: the release Microsoft.VC145.CRT folder of the installed Microsoft
+Visual Studio Community 2026 distribution. The Microsoft Authenticode
+signatures and SHA-256 hashes were verified before redistribution.
+The adjacent application file vc-runtime-manifest.json records the hashes.
+
+These Microsoft components remain subject to Microsoft's applicable
+Visual Studio License Terms and are not licensed under this application's
+license or under the licenses of its open-source OCR dependencies.
+
+Microsoft's distributable code list and license references:
+https://learn.microsoft.com/en-us/visualstudio/releases/2026/redistribution
+https://visualstudio.microsoft.com/license-terms/
+
+The original Redist.txt reference supplied with Visual Studio is preserved
+as Microsoft-Visual-Studio-Redist.txt in this directory.
+
+Deployment: these files are installed only beside QingCapture.exe. No
+global Visual C++ installer is run, no system runtime is replaced, and no
+administrator elevation is requested for this dependency.
+
+The Universal CRT and Windows system DLLs are supplied by Windows 11.
+No debug runtime files or OpenMP runtime files are included.
+
+Because these are application-local files, runtime servicing requires an
+updated QingCapture package containing the replacement Microsoft-signed
+runtime files and an updated manifest.

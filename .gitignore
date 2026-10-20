@@ -1,0 +1,34 @@
+src/bin/
+src/obj/
+build/
+dist/
+.vs/
+.ui-workbench/
+evidence/
+
+# Machine-specific historical reports stay local. Public evidence is in docs/.
+/VERIFICATION.md
+/OFFLINE-VERIFICATION.md
+/UI-REFRESH-VERIFICATION.md
+
+# Offline resources are checksummed GitHub Release assets.
+/offline/native/**
+!/offline/native/manifest.json
+/offline/embedded/**
+!/offline/embedded/manifest.json
+/offline/model/**
+!/offline/model/manifest.json
+/offline/qwen/model/**
+!/offline/qwen/model/manifest.json
+/offline/engine/
+/offline/qwen/engine/
+/runtimes/win-x64/*.dll
+
+**/__pycache__/
+*.pyc
+*.pyo
+*.pdb
+*.log
+*.user
+.env
+.env.*

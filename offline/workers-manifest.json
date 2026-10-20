@@ -1,0 +1,8 @@
+{
+  "schema": 1,
+  "python_version": "3.13.15",
+  "files": {
+    "worker.py": "33310ea13a8534c8ba66a7e270feeed5195b7e8d9c31d2af1ad7b69c8392acf2",
+    "qwen/worker.py": "ce50abd533f143cf35c9f2e02ec6b9d7e54fe338e54003c1e5d202a52a8d5466"
+  }
+}

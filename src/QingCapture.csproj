@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AssemblyName>QingCapture</AssemblyName>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <Version>1.3.0</Version>
+    <Title>Framelet</Title>
+    <AssemblyTitle>Framelet</AssemblyTitle>
+    <Product>Framelet</Product>
+    <Company>Framelet</Company>
+    <Description>Framelet</Description>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <!-- Publish remains standalone. Only explicit bin/debug runs need another
+         copy of the large offline assets beside the intermediate executable. -->
+    <OfflineCopyToOutput Condition="'$(OfflineCopyToOutput)' == ''">Never</OfflineCopyToOutput>
+    <!-- WPF owns the message loop and DPI manifest; WinForms is used only for the tray. -->
+    <NoWarn>$(NoWarn);WFO0003</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Tesseract" Version="5.2.0" />
+    <Content Include="tessdata\eng.traineddata" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="icon.ico" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="framelet-f-62545da8.ico" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\offline\native\**\*" Link="offline\native\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="$(OfflineCopyToOutput)" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\offline\workers-manifest.json" Link="offline\workers-manifest.json" CopyToOutputDirectory="$(OfflineCopyToOutput)" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\offline\model\**\*" Link="offline\model\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="$(OfflineCopyToOutput)" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\offline\MODEL-NOTICE.md" Link="offline\MODEL-NOTICE.md" CopyToOutputDirectory="$(OfflineCopyToOutput)" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\offline\qwen\model\**\*" Link="offline\qwen\model\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="$(OfflineCopyToOutput)" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\offline\qwen\MODEL-NOTICE.md" Link="offline\qwen\MODEL-NOTICE.md" CopyToOutputDirectory="$(OfflineCopyToOutput)" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\offline\worker.py" Link="offline\worker.py" CopyToOutputDirectory="$(OfflineCopyToOutput)" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\offline\qwen\worker.py" Link="offline\qwen\worker.py" CopyToOutputDirectory="$(OfflineCopyToOutput)" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\offline\embedded\**\*" Link="offline\embedded\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="$(OfflineCopyToOutput)" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\offline\inprocess_bridge.py" Link="offline\inprocess_bridge.py" CopyToOutputDirectory="$(OfflineCopyToOutput)" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\offline\testdata\*.json" Link="offline\testdata\%(Filename)%(Extension)" CopyToOutputDirectory="$(OfflineCopyToOutput)" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="testdata\*.png" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\runtimes\win-x64\*.dll" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\runtimes\win-x64\vc-runtime-manifest.json" Link="vc-runtime-manifest.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\licenses\Microsoft-VC-Runtime-NOTICE.txt" Link="licenses\Microsoft-VC-Runtime-NOTICE.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\licenses\Microsoft-Visual-Studio-Redist.txt" Link="licenses\Microsoft-Visual-Studio-Redist.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

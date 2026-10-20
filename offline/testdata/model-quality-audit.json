@@ -1,0 +1,350 @@
+{
+  "date": "2026-09-23",
+  "model": "Argos en→zh 1.9; CTranslate2 4.6.0 CPU-only Ruy build; SentencePiece 0.2.1",
+  "model_sha256": "1a039114d9456b6528fabb65b455b6f156319634a0f984b1f6018f7737d67598",
+  "cases": 32,
+  "worker_ready": {
+    "type": "ready",
+    "protocol": 1,
+    "engine": "CTranslate2",
+    "model": "Argos en-zh 1.9",
+    "network_attempts": 0
+  },
+  "elapsed_seconds": 2.681,
+  "network_calls": 0,
+  "review_method": "Human semantic review against the intent criteria recorded for each synthetic test sentence. The 26-item probe is intentionally weighted toward high-risk wording and is not a representative corpus or a statistically meaningful accuracy score.",
+  "assessment": {
+    "method": "Human semantic review against the intent criteria recorded for each synthetic test sentence. The 26-item probe is intentionally weighted toward high-risk wording and is not a representative corpus or a statistically meaningful accuracy score.",
+    "high_impact_errors": 4,
+    "contextual_or_currency_risks": 2,
+    "deadline_boundary_ambiguity": 1,
+    "other_cases": "No comparably high-impact semantic reversal observed in this small probe; grammar and punctuation still vary.",
+    "findings": [
+      {
+        "case_id": 1,
+        "severity": "high",
+        "issue": "A rescheduled Monday meeting became a meeting held continuously from Monday through Friday; the changed appointment date became a date range."
+      },
+      {
+        "case_id": 8,
+        "severity": "high",
+        "issue": "The deadline and review date collapsed into “今天明天”, losing the before-5-p.m. condition."
+      },
+      {
+        "case_id": 15,
+        "severity": "high",
+        "issue": "The contrast between a 15% reduction and a final value of 15% was lost, though this distinction is essential for instructions."
+      },
+      {
+        "case_id": 20,
+        "severity": "high",
+        "issue": "The trigger “after the returned item is received” became “after the refund is received”; the event that starts the 30-day clock changed."
+      },
+      {
+        "case_id": 9,
+        "severity": "medium",
+        "issue": "In a software context, the trial period became a court trial (“审判”)."
+      },
+      {
+        "case_id": 13,
+        "severity": "medium",
+        "issue": "The dollar symbol was rendered as Chinese yuan (“元”), which may change the currency."
+      },
+      {
+        "case_id": 2,
+        "severity": "boundary",
+        "issue": "“by Friday” became “星期五前”, whose strict-before-Friday reading can differ from a Friday deadline."
+      }
+    ],
+    "reviewed_case_ids": {
+      "1": "fail",
+      "2": "boundary",
+      "8": "fail",
+      "9": "fail",
+      "13": "risk",
+      "15": "fail",
+      "20": "fail"
+    }
+  },
+  "cases_by_category": {
+    "negation": 4,
+    "number": 4,
+    "time": 12,
+    "ui": 6
+  },
+  "results": [
+    {
+      "id": 1,
+      "category": "time.direction",
+      "source": "The meeting was moved from Monday to Friday at 3 PM.",
+      "expected_meaning": "会议原定星期一，现在改到星期五下午3点。",
+      "expected_output": "会议原定星期一，现改至星期五下午3点。",
+      "translation": "会议从星期一至星期五下午3时举行。",
+      "network_attempts": 0
+    },
+    {
+      "id": 2,
+      "category": "time.deadline",
+      "source": "Submit the report by Friday.",
+      "expected_meaning": "最迟星期五提交报告；保留“截止时间”含义。",
+      "expected_output": "最迟应于星期五提交报告。",
+      "translation": "星期五前提交报告。",
+      "network_attempts": 0
+    },
+    {
+      "id": 3,
+      "category": "time.order",
+      "source": "Do not start the next step until the previous step has finished.",
+      "expected_meaning": "上一步完成之前，不要开始下一步。",
+      "expected_output": "上一步完成前，请勿开始下一步。",
+      "translation": "在前一步完成之前不要开始下一步 。",
+      "network_attempts": 0
+    },
+    {
+      "id": 4,
+      "category": "time.order",
+      "source": "Start the next step only after the previous step has finished.",
+      "expected_meaning": "只有上一步完成之后，才开始下一步。",
+      "expected_output": "只有在上一步完成后，才能开始下一步。",
+      "translation": "下一个步骤只有在前一步骤完成后才开始.",
+      "network_attempts": 0
+    },
+    {
+      "id": 5,
+      "category": "time.direction",
+      "source": "The shipment arrived two days earlier than planned.",
+      "expected_meaning": "货物比原计划提前两天到达。",
+      "translation": "这批货物比原计划提前两天运抵。",
+      "network_attempts": 0
+    },
+    {
+      "id": 6,
+      "category": "time.direction",
+      "source": "The shipment arrived two days later than planned.",
+      "expected_meaning": "货物比原计划晚两天到达。",
+      "translation": "这批货物比原计划晚了两天。",
+      "network_attempts": 0
+    },
+    {
+      "id": 7,
+      "category": "time.effective-date",
+      "source": "The update will not take effect until you restart the app.",
+      "expected_meaning": "重启应用程序之后，更新才会生效。",
+      "translation": "在您重新启动应用程序之前, 更新将不会生效 。",
+      "network_attempts": 0
+    },
+    {
+      "id": 8,
+      "category": "time.sequence",
+      "source": "Changes made before 5 p.m. today will be reviewed tomorrow.",
+      "expected_meaning": "今天下午5点之前所做的更改，将于明天审核。",
+      "expected_output": "今天下午5点前作出的更改，将于明天审核。",
+      "translation": "下午5时前作出的改动 今天明天将审查。",
+      "network_attempts": 0
+    },
+    {
+      "id": 9,
+      "category": "time.duration",
+      "source": "The trial lasts for two weeks after installation.",
+      "expected_meaning": "安装之后，试用期持续两周。",
+      "expected_output": "软件安装后的试用期为2周。",
+      "translation": "审判在安装后持续两周。",
+      "network_attempts": 0
+    },
+    {
+      "id": 10,
+      "category": "time.interval",
+      "source": "Payments are due every two months, starting in March.",
+      "expected_meaning": "从三月开始，每隔两个月付款一次。",
+      "translation": "从3月开始,每两个月应付款一次。",
+      "network_attempts": 0
+    },
+    {
+      "id": 11,
+      "category": "time.relative-date",
+      "source": "The meeting is scheduled for the day after tomorrow at 9 a.m.",
+      "expected_meaning": "会议安排在后天上午9点。",
+      "translation": "会议定于后天上午9时举行。",
+      "network_attempts": 0
+    },
+    {
+      "id": 12,
+      "category": "time.bound",
+      "source": "Wait no more than 15 minutes before restarting the computer.",
+      "expected_meaning": "重启电脑前，最多等待15分钟。",
+      "expected_output": "重启电脑前，等待时间不得超过15分钟。",
+      "translation": "等待不超过15分钟后重启计算机.",
+      "network_attempts": 0
+    },
+    {
+      "id": 13,
+      "category": "number.direction",
+      "source": "The price increases from $120 to $150 next month.",
+      "expected_meaning": "下个月，价格将从120美元涨至150美元。",
+      "translation": "下月价格由120元上涨至150元.",
+      "network_attempts": 0
+    },
+    {
+      "id": 14,
+      "category": "number.direction",
+      "source": "The price decreases from $150 to $120 next month.",
+      "expected_meaning": "下个月，价格将从150美元降至120美元。",
+      "translation": "下个月价格从150美元降至120美元。",
+      "network_attempts": 0
+    },
+    {
+      "id": 15,
+      "category": "number.precision",
+      "source": "Reduce the total by 15%, not to 15%.",
+      "expected_meaning": "将总额减少15%，不是减少到15%。",
+      "expected_output": "将总额减少15%，而不是减少到15%。",
+      "translation": "总数减少15%,而不是15%。",
+      "network_attempts": 0
+    },
+    {
+      "id": 16,
+      "category": "number.bound",
+      "source": "The error rate must stay below 5%, not at 5%.",
+      "expected_meaning": "错误率必须低于5%，不能达到5%。",
+      "expected_output": "错误率必须低于5%，不得达到该数值。",
+      "translation": "误差率必须保持在5%以下,而不是5%。",
+      "network_attempts": 0
+    },
+    {
+      "id": 17,
+      "category": "negation.retention",
+      "source": "Do not delete files older than 30 days.",
+      "expected_meaning": "不要删除超过30天的文件。",
+      "expected_output": "不要删除超过30天的文件。",
+      "translation": "不删除超过30天的文件 。",
+      "network_attempts": 0
+    },
+    {
+      "id": 18,
+      "category": "negation.filter",
+      "source": "Only delete files newer than 30 days.",
+      "expected_meaning": "只删除最近30天内的文件。",
+      "expected_output": "只删除最近30天内的文件。",
+      "translation": "只删除超过30天的新文件 。",
+      "network_attempts": 0
+    },
+    {
+      "id": 19,
+      "category": "negation.exception",
+      "source": "Complete all tasks except those marked optional.",
+      "expected_meaning": "完成除标为“可选”的任务以外的所有任务。",
+      "translation": "完成所有任务, 除了标记的可选任务 。",
+      "network_attempts": 0
+    },
+    {
+      "id": 20,
+      "category": "negation.refund",
+      "source": "The refund will not be issued until 30 days after the returned item is received.",
+      "expected_meaning": "收到退货满30天之后才会退款。",
+      "expected_output": "收到退回的商品30天后才会退款。",
+      "translation": "退款待收到退款后30日才发放.",
+      "network_attempts": 0
+    },
+    {
+      "id": 21,
+      "category": "ui.order",
+      "source": "Click Save before closing the window.",
+      "expected_meaning": "关闭窗口之前，先点击“保存”。",
+      "translation": "在关闭窗口前单击保存 。",
+      "network_attempts": 0
+    },
+    {
+      "id": 22,
+      "category": "ui.cancel",
+      "source": "Closing the window cancels the export.",
+      "expected_meaning": "关闭窗口会取消导出。",
+      "translation": "关闭窗口取消导出 。",
+      "network_attempts": 0
+    },
+    {
+      "id": 23,
+      "category": "ui.failure",
+      "source": "If the export fails, retry after reconnecting to the network.",
+      "expected_meaning": "如果导出失败，请重新连接网络后重试。",
+      "translation": "如果导出失败, 在重新连接到网络后重试 。",
+      "network_attempts": 0
+    },
+    {
+      "id": 24,
+      "category": "ui.confirmation",
+      "source": "Do not choose Replace unless you have a backup.",
+      "expected_meaning": "除非已有备份，否则不要选择“替换”。",
+      "translation": "除非有备份,否则不要选择替换。",
+      "network_attempts": 0
+    },
+    {
+      "id": 25,
+      "category": "ui.shortcut",
+      "source": "Press Esc to cancel; press Enter to finish translating.",
+      "expected_meaning": "按 Esc 取消；按 Enter 完成翻译。",
+      "translation": "按 Esc 取消; 按 Enter 完成翻译 。",
+      "network_attempts": 0
+    },
+    {
+      "id": 26,
+      "category": "ui.privacy",
+      "source": "Select offline translation to keep recognized text on this computer.",
+      "expected_meaning": "选择离线翻译，识别出的文字会留在这台电脑上。",
+      "translation": "选择离线翻译以保留此计算机上的识别文本 。",
+      "network_attempts": 0
+    },
+    {
+      "id": 27,
+      "category": "context.trade",
+      "source": "The company exports goods to Japan.",
+      "expected_meaning": "公司向日本出口商品。",
+      "translation": "not in baseline corpus",
+      "network_attempts": 0
+    },
+    {
+      "id": 28,
+      "category": "software.trial-end",
+      "source": "Your software trial ends two weeks after installation.",
+      "expected_meaning": "软件试用期将在安装后两周结束。",
+      "expected_output": "软件试用期将在安装后2周结束。",
+      "translation": "not in baseline corpus",
+      "network_attempts": 0
+    },
+    {
+      "id": 29,
+      "category": "number.precision",
+      "source": "Decrease the total by 15 percent, not to 15 percent.",
+      "expected_meaning": "将总额减少15%，而不是减少到15%。",
+      "expected_output": "将总额减少15%，而不是减少到15%。",
+      "translation": "not in baseline corpus",
+      "network_attempts": 0
+    },
+    {
+      "id": 30,
+      "category": "time.inclusive-expiry",
+      "source": "The update is available through Friday, but expires at 12:01 a.m. Saturday.",
+      "expected_meaning": "更新整个星期五都可用，并于星期六凌晨12点01分失效。",
+      "expected_output": "更新会在整个星期五保持可用，并于星期六凌晨12点01分失效。",
+      "translation": "not in baseline corpus",
+      "network_attempts": 0
+    },
+    {
+      "id": 31,
+      "category": "time.order-retention",
+      "source": "Keep the old version until the new version has been installed and verified.",
+      "expected_meaning": "新版本安装并验证完成之前，请保留旧版本。",
+      "expected_output": "新版本安装并验证完成之前，请保留旧版本。",
+      "translation": "not in baseline corpus",
+      "network_attempts": 0
+    },
+    {
+      "id": 32,
+      "category": "time.order-backup",
+      "source": "Do not restart the computer until the file backup has completed.",
+      "expected_meaning": "文件备份完成之前，请勿重启电脑。",
+      "expected_output": "文件备份完成之前，请勿重启电脑。",
+      "translation": "not in baseline corpus",
+      "network_attempts": 0
+    }
+  ]
+}

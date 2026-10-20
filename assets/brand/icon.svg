@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <title>Framelet — F capture frame</title>
+  <desc>A clear geometric F paired with an opposing capture corner. Mist-blue-violet and soft white match the application.</desc>
+  <g transform="scale(16)">
+    <rect x="1.5" y="1.5" width="29" height="29" rx="8" fill="#626FA6"/>
+    <g fill="none" stroke="#FAFBFF" stroke-width="2.8" stroke-linecap="square" stroke-linejoin="round">
+      <path d="M9 24V8H24M9 16H19"/>
+      <path d="M24 18V24H18"/>
+    </g>
+  </g>
+</svg>

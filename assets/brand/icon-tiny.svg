@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <title>Framelet — pixel-aligned 16px F capture frame</title>
+  <rect x=".5" y=".5" width="15" height="15" rx="4" fill="#626FA6"/>
+  <path d="M3 13V3H13V5H5V7H10V9H5V13Z M11 9H13V13H9V11H11Z" fill="#FAFBFF"/>
+</svg>
